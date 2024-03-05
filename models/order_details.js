@@ -1,30 +1,34 @@
 const mongoose = require('mongoose');
 
 const dataSchema = new mongoose.Schema({
-    countryCode: {
+    ORDERID: {
+        required: true,
+        type: Number
+    },
+    ORDERDATE: {
         required: true,
         type: String
     },
-    countryName: {
+    COMPANYNAME: {
         required: true,
         type: String
     },
-    currencyCode: {
+    PRODUCTNAME: {
         required: true,
         type: String
     },
-    population: {
+    UNITPRICE: {
         required: true,
-        type: String
+        type: Number
     },
-    capital: {
+    QUANTITY: {
         required: true,
-        type: String
+        type: Number
     },
-    continentName: {
+    BILLAMOUNT: {
         required: true,
-        type: String
+        type: Number
     }
 })
 
-module.exports = mongoose.model('country_det', dataSchema, 'country_det')
+module.exports = mongoose.model('order_details', dataSchema, 'order_details')
