@@ -43,7 +43,7 @@ router.get('/getCountries', async (req, res) => {
 //Get by ID Method
 router.get('/getOne/:id', async (req, res) => {
     try {
-        const data = await Model.findOne({countryCode:req.params.id})
+        const data = await Model.findOne({ countryCode: req.params.id })
         res.json(data)
     }
     catch (error) {
@@ -128,7 +128,7 @@ router.get('/getOrderWiseOrderDet', async (req, res) => {
 //Post Method
 router.post('/postFood', async (req, res) => {
     const data = new FOODMODEL({
-      name: 'Ice Cream'
+        name: 'Ice Cream'
     })
 
     try {
@@ -182,6 +182,36 @@ router.get('/getCrudEmployees', async (req, res) => {
     }
     catch (error) {
         res.status(500).json({ message: error.message })
+    }
+})
+
+//Update by ID Method
+router.put('/updateEmployee/:empid', async (req, res) => {
+    try {
+        const id = req.params.empid;
+        const updatedData = req.body;
+        const options = { new: true };
+        console.log(id, updatedData);
+        const result = await CRUDEMPLOYEEMODEL.findOneAndUpdate(
+            {empid: id} , updatedData, options
+        )
+
+        res.send(result)
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+//Delete by ID Method
+router.delete('/deleteEmployee/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = await Model.findByIdAndDelete(id)
+        res.send(`Document with ${data.name} has been deleted..`)
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message })
     }
 })
 

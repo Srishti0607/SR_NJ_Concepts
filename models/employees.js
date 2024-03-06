@@ -15,7 +15,7 @@ const dataSchema = new mongoose.Schema({
     },
     order: {
         required: true,
-        type: Object
+        type: Array
     }
 })
 
