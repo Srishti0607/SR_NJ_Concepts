@@ -4,6 +4,8 @@ const USERMODEL = require('../models/users');
 const ORDERDETMODEL = require('../models/order_details');
 const EMPLOYEEDETMODEL = require('../models/employees');
 const ORDERWISEORDERDETMODEL = require('../models/orderwide_orderdet');
+const ALLOWANCETYPEMODEL = require('../models/allowancetype');
+const CRUDEMPLOYEEMODEL = require('../models/crud_employees');
 const FOODMODEL = require('../models/food');
 const router = express.Router();
 
@@ -135,6 +137,51 @@ router.post('/postFood', async (req, res) => {
     }
     catch (error) {
         res.status(400).json({ message: error.message })
+    }
+})
+
+//Get all order wise order det list Method
+router.get('/getAllowanceType', async (req, res) => {
+    try {
+        const data = await ALLOWANCETYPEMODEL.find();
+        res.json(data)
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+//Post Method
+router.post('/insertEmployee', async (req, res) => {
+    const data = new CRUDEMPLOYEEMODEL({
+        "EMPID": req.body.empid,
+        "FIRSTNAME": req.body.firstName,
+        "LASTNAME": req.body.lastName,
+        "TITLE": req.body.title,
+        "TITLEOFCOURTESY": req.body.titleOfCourtesy,
+        "GENDER": req.body.gender,
+        "HASPASSPORT": req.body.hasPassport,
+        "DATEOFJOINING": req.body.dateOfJoining,
+        "SALARY": req.body.salary
+    })
+
+    try {
+        const dataToSave = await data.save();
+        res.status(200).json(dataToSave)
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+})
+
+//Get all order wise order det list Method
+router.get('/getCrudEmployees', async (req, res) => {
+    try {
+        const data = await CRUDEMPLOYEEMODEL.find();
+        res.json(data)
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
     }
 })
 
