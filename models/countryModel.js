@@ -27,4 +27,4 @@ const dataSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('country_det', dataSchema, 'country_det')
+module.exports = mongoose.model('country_det', dataSchema)
