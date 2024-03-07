@@ -6,28 +6,28 @@ const EMPLOYEEDETMODEL = require('../models/employees');
 const ORDERWISEORDERDETMODEL = require('../models/orderwide_orderdet');
 const ALLOWANCETYPEMODEL = require('../models/allowancetype');
 const CRUDEMPLOYEEMODEL = require('../models/crud_employees');
-const FOODMODEL = require('../models/food');
+const BULKCRUDMODEL = require('../models/bulk-crud');
 const router = express.Router();
 
 //Post Method
-router.post('/post', async (req, res) => {
-    const data = new Model({
-        countryCode: req.body.countryCode,
-        countryName: req.body.countryName,
-        currencyCode: req.body.currencyCode,
-        population: req.body.population,
-        capital: req.body.capital,
-        continentName: req.body.continentName
-    })
+// router.post('/post', async (req, res) => {
+//     const data = new Model({
+//         countryCode: req.body.countryCode,
+//         countryName: req.body.countryName,
+//         currencyCode: req.body.currencyCode,
+//         population: req.body.population,
+//         capital: req.body.capital,
+//         continentName: req.body.continentName
+//     })
 
-    try {
-        const dataToSave = await data.save();
-        res.status(200).json(dataToSave)
-    }
-    catch (error) {
-        res.status(400).json({ message: error.message })
-    }
-})
+//     try {
+//         const dataToSave = await data.save();
+//         res.status(200).json(dataToSave)
+//     }
+//     catch (error) {
+//         res.status(400).json({ message: error.message })
+//     }
+// })
 
 //Get all Method
 router.get('/getCountries', async (req, res) => {
@@ -41,45 +41,45 @@ router.get('/getCountries', async (req, res) => {
 })
 
 //Get by ID Method
-router.get('/getOne/:id', async (req, res) => {
-    try {
-        const data = await Model.findOne({ countryCode: req.params.id })
-        res.json(data)
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-})
+// router.get('/getOne/:id', async (req, res) => {
+//     try {
+//         const data = await Model.findOne({ countryCode: req.params.id })
+//         res.json(data)
+//     }
+//     catch (error) {
+//         res.status(500).json({ message: error.message })
+//     }
+// })
 
 //Update by ID Method
-router.patch('/update/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const updatedData = req.body;
-        const options = { new: true };
+// router.patch('/update/:id', async (req, res) => {
+//     try {
+//         const id = req.params.id;
+//         const updatedData = req.body;
+//         const options = { new: true };
 
-        const result = await Model.findByIdAndUpdate(
-            id, updatedData, options
-        )
+//         const result = await Model.findByIdAndUpdate(
+//             id, updatedData, options
+//         )
 
-        res.send(result)
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-})
+//         res.send(result)
+//     }
+//     catch (error) {
+//         res.status(500).json({ message: error.message })
+//     }
+// })
 
 //Delete by ID Method
-router.delete('/delete/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const data = await Model.findByIdAndDelete(id)
-        res.send(`Document with ${data.name} has been deleted..`)
-    }
-    catch (error) {
-        res.status(400).json({ message: error.message })
-    }
-})
+// router.delete('/delete/:id', async (req, res) => {
+//     try {
+//         const id = req.params.id;
+//         const data = await Model.findByIdAndDelete(id)
+//         res.send(`Document with ${data.name} has been deleted..`)
+//     }
+//     catch (error) {
+//         res.status(400).json({ message: error.message })
+//     }
+// })
 
 //Get all Users Method
 router.get('/getUsers', async (req, res) => {
@@ -126,19 +126,19 @@ router.get('/getOrderWiseOrderDet', async (req, res) => {
 })
 
 //Post Method
-router.post('/postFood', async (req, res) => {
-    const data = new FOODMODEL({
-        name: 'Ice Cream'
-    })
+// router.post('/postFood', async (req, res) => {
+//     const data = new FOODMODEL({
+//         name: 'Ice Cream'
+//     })
 
-    try {
-        const dataToSave = await data.save();
-        res.status(200).json(dataToSave)
-    }
-    catch (error) {
-        res.status(400).json({ message: error.message })
-    }
-})
+//     try {
+//         const dataToSave = await data.save();
+//         res.status(200).json(dataToSave)
+//     }
+//     catch (error) {
+//         res.status(400).json({ message: error.message })
+//     }
+// })
 
 //Get all order wise order det list Method
 router.get('/getAllowanceType', async (req, res) => {
@@ -191,12 +191,9 @@ router.put('/updateEmployee/:empid', async (req, res) => {
         const id = req.params.empid;
         const updatedData = req.body;
         const options = { new: true };
-        console.log(id, updatedData);
         const result = await CRUDEMPLOYEEMODEL.findOneAndUpdate(
             {EMPID: id} , updatedData, options
         )
-        console.log(result);
-
         res.send(result)
     }
     catch (error) {
@@ -208,8 +205,64 @@ router.put('/updateEmployee/:empid', async (req, res) => {
 router.delete('/deleteEmployee/:empid', async (req, res) => {
     try {
         const id = req.params.empid;
-        console.log(id);
         const data = await CRUDEMPLOYEEMODEL.findOneAndDelete({EMPID: id})
+        res.send(`Document with ${data.name} has been deleted..`)
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+})
+
+//Post Method
+router.post('/bulkCrudInsert', async (req, res) => {
+    const data = new BULKCRUDMODEL({
+        "CustName": req.body.CustName,
+        "CustPosition": req.body.CustPosition,
+        "CustCity": req.body.CustCity,
+        "CustState": req.body.CustState
+    })
+
+    try {
+        const dataToSave = await data.save();
+        res.status(200).json(dataToSave)
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+})
+
+//Update by ID Method
+router.put('/bulkCrudUpdate/:CustName', async (req, res) => {
+    try {
+        const id = req.params.CustName;
+        const updatedData = req.body;
+        const options = { new: true };
+        const result = await BULKCRUDMODEL.findOneAndUpdate(
+            {CustName: id} , updatedData, options
+        )
+        res.send(result)
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+//Get all order wise order det list Method
+router.get('/getCrudData', async (req, res) => {
+    try {
+        const data = await BULKCRUDMODEL.find();
+        res.json(data)
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+//Delete by ID Method
+router.delete('/deleteCrudData/:CustName', async (req, res) => {
+    try {
+        const id = req.params.CustName;
+        const data = await BULKCRUDMODEL.findOneAndDelete({CustName: id})
         res.send(`Document with ${data.name} has been deleted..`)
     }
     catch (error) {
