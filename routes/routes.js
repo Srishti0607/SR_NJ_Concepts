@@ -193,8 +193,9 @@ router.put('/updateEmployee/:empid', async (req, res) => {
         const options = { new: true };
         console.log(id, updatedData);
         const result = await CRUDEMPLOYEEMODEL.findOneAndUpdate(
-            {empid: id} , updatedData, options
+            {EMPID: id} , updatedData, options
         )
+        console.log(result);
 
         res.send(result)
     }
@@ -204,10 +205,11 @@ router.put('/updateEmployee/:empid', async (req, res) => {
 })
 
 //Delete by ID Method
-router.delete('/deleteEmployee/:id', async (req, res) => {
+router.delete('/deleteEmployee/:empid', async (req, res) => {
     try {
-        const id = req.params.id;
-        const data = await Model.findByIdAndDelete(id)
+        const id = req.params.empid;
+        console.log(id);
+        const data = await CRUDEMPLOYEEMODEL.findOneAndDelete({EMPID: id})
         res.send(`Document with ${data.name} has been deleted..`)
     }
     catch (error) {
